@@ -152,9 +152,15 @@ export function usePeer(): UsePeerReturn {
         return
       }
       
+      // Extract peer code from connection ID (format: vanish-XXXXXX)
+      const incomingPeerCode = conn.peer.replace('vanish-', '')
+      setPeerCodeState(incomingPeerCode)
+      
       // Accept connection
       setupConnection(conn, codeRef.current)
-    })
+    })  
+      
+    
       
       // Accept connection
       setupConnection(conn, codeRef.current)
