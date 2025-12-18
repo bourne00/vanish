@@ -87,7 +87,7 @@ export function EntryPage({
         <div className="text-center text-xs text-vanish-green-dark opacity-60 animate-fade-in" style={{ animationDelay: '0.5s', animationFillMode: 'both' }}>
           <p>Share your code with your peer.</p>
           <p>Enter their code to connect.</p>
-          <p className="mt-2 text-vanish-green-dark/50">Both parties must connect to each other.</p>
+                   <p className="mt-2 text-vanish-green-dark/50">Only one person needs to initiate the connection.</p>
         </div>
       </div>
     </div>
