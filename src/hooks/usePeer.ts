@@ -142,7 +142,7 @@ export function usePeer(): UsePeerReturn {
       setIsReady(true)
     })
 
-        peer.on('connection', (conn) => {
+    peer.on('connection', (conn) => {
       console.log('[Vanish] Incoming connection from:', conn.peer)
       
       // Exclusive connection: reject if already connected
@@ -155,12 +155,6 @@ export function usePeer(): UsePeerReturn {
       // Extract peer code from connection ID (format: vanish-XXXXXX)
       const incomingPeerCode = conn.peer.replace('vanish-', '')
       setPeerCodeState(incomingPeerCode)
-      
-      // Accept connection
-      setupConnection(conn, codeRef.current)
-    })  
-      
-    
       
       // Accept connection
       setupConnection(conn, codeRef.current)
