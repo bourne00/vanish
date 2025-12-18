@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --vanish-black: #000000;
+  --vanish-green: #00FF00;
+  --vanish-green-dim: #00CC00;
+  --vanish-green-dark: #004400;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--vanish-black);
+  color: var(--vanish-green);
+  font-family: 'JetBrains Mono', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent text selection for app-like feel */
+  -webkit-user-select: none;
+  user-select: none;
+  /* Prevent pull-to-refresh on mobile */
+  overscroll-behavior: none;
+}
+
+/* Allow text selection only in input and message areas */
+input, textarea, .selectable {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--vanish-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--vanish-green-dark);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vanish-green-dim);
+}
+
+/* Focus styles */
+*:focus {
+  outline: none;
+}
+
+/* Input styles */
+input, textarea {
+  background: transparent;
+  border: 1px solid var(--vanish-green);
+  color: var(--vanish-green);
+  font-family: 'JetBrains Mono', monospace;
+  caret-color: var(--vanish-green);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--vanish-green-dark);
+}
+
+input:focus, textarea:focus {
+  box-shadow: 0 0 10px var(--vanish-green), 0 0 20px rgba(0, 255, 0, 0.3);
+  border-color: var(--vanish-green);
+}
+
+/* Button base styles */
+button {
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+/* Disable iOS button styles */
+button, input, textarea {
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
+/* Prevent zoom on input focus for iOS */
+@media screen and (max-width: 768px) {
+  input, textarea {
+    font-size: 16px;
+  }
+}
+
+/* Glow text effect */
+.glow-text {
+  text-shadow: 0 0 10px var(--vanish-green), 0 0 20px var(--vanish-green), 0 0 30px var(--vanish-green);
+}
+
+.glow-text-subtle {
+  text-shadow: 0 0 5px var(--vanish-green);
+}
+
+/* Glow border effect */
+.glow-border {
+  box-shadow: 0 0 5px var(--vanish-green), 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+/* Scanline effect for retro feel */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+}
+
+/* Message animation classes */
+.message-enter {
+  animation: messageEnter 0.3s ease-out forwards;
+}
+
+.message-exit {
+  animation: messageExit 0.3s ease-out forwards;
+}
+
+@keyframes messageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes messageExit {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+}
+
+/* Typing cursor animation */
+.cursor-blink::after {
+  content: '█';
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Safe area for notched phones */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Haptic feedback simulation via visual */
+.haptic-press:active {
+  filter: brightness(0.8);
+}
+
