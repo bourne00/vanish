@@ -84,7 +84,8 @@ export function usePeer(): UsePeerReturn {
 
   // Setup connection handlers
   const setupConnection = useCallback((conn: DataConnection, code: string) => {
-    conn.on('open', () => {
+    // Helper function to handle connection open
+    const handleOpen = () => {
       console.log('[Vanish] Connection established')
       connectionRef.current = conn
       isConnectedRef.current = true
@@ -93,7 +94,14 @@ export function usePeer(): UsePeerReturn {
       
       // Send handshake
       conn.send({ type: 'handshake', code })
-    })
+    }
+
+    // Check if connection is already open (important for receiver side)
+    if (conn.open) {
+      handleOpen()
+    } else {
+      conn.on('open', handleOpen)
+    }
 
     conn.on('data', handleData)
 
