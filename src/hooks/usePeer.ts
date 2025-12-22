@@ -134,12 +134,31 @@ export function usePeer(): UsePeerReturn {
     setMyCode(code)
 
     const peer = new Peer(generatePeerId(code), {
-      debug: 0, // Disable debug logs
+      debug: 1, // Enable some debug logs for troubleshooting
       config: {
         iceServers: [
+          // STUN servers
           { urls: 'stun:stun.l.google.com:19302' },
           { urls: 'stun:stun1.l.google.com:19302' },
           { urls: 'stun:stun2.l.google.com:19302' },
+          { urls: 'stun:stun3.l.google.com:19302' },
+          { urls: 'stun:stun4.l.google.com:19302' },
+          // Free TURN servers from Open Relay Project
+          {
+            urls: 'turn:openrelay.metered.ca:80',
+            username: 'openrelayproject',
+            credential: 'openrelayproject',
+          },
+          {
+            urls: 'turn:openrelay.metered.ca:443',
+            username: 'openrelayproject',
+            credential: 'openrelayproject',
+          },
+          {
+            urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+            username: 'openrelayproject',
+            credential: 'openrelayproject',
+          },
         ],
       },
     })
@@ -233,14 +252,14 @@ export function usePeer(): UsePeerReturn {
     if (conn) {
       setupConnection(conn, codeRef.current)
       
-      // Timeout for connection
+      // Timeout for connection (30 seconds to allow for NAT traversal)
       setTimeout(() => {
         if (pendingConnectionRef.current === targetCode && !isConnectedRef.current) {
           setError('Connection timeout. Peer may not be ready.')
           setStatus('idle')
           pendingConnectionRef.current = null
         }
-      }, 10000)
+      }, 30000)
     }
   }, [peerCode, myCode, setupConnection])
 
